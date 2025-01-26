@@ -17,4 +17,5 @@ export type WeatherData = {
   weather: TypeWeather
   degreeType: number
   isDay: boolean
+  isFavorite: boolean
 }

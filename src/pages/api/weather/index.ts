@@ -1,4 +1,4 @@
-import { TypeWeather, WeatherData } from '@/types/weather'
+import { CELCUIS, TypeWeather, WeatherData } from '@/types/weather'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 const kelvinToCelsius = (kelvin: number): number => {
@@ -41,8 +41,7 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   const response = await fetch(url)
   if (!response.ok) throw new Error('Network error')
   const result = await response.json()
-  // return wheater information to the client
-  return res.status(200).json({
+  const data: WeatherData = {
     localization: result.name,
     temperature: createArrayTemperature(result.main.temp),
     tempMin: createArrayTemperature(result.main.temp_min),
@@ -50,5 +49,7 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
     weather: parseWeather(result.weather[0].main),
     description: result.weather[0].description,
     isDay: isDay(result.sys.sunrise, result.sys.sunset),
-  } as WeatherData)
+    degreeType: CELCUIS
+  }
+  return res.status(200).json(data)
 }

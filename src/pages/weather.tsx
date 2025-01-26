@@ -1,39 +1,65 @@
 import { useEffect } from 'react'
-import CardWeather from '../components/card-weather'
+import { useRouter, NextRouter } from 'next/router'
 import { useWeather } from '../hooks/useWeather'
-import { CELCUIS, KEVIN } from '../types/weather'
-import { useRouter } from 'next/router';
+import { CELCUIS, KEVIN, WeatherData } from '../types/weather'
+import CardWeather from '../components/card-weather'
+import { useFavorite } from '../hooks/useFavortite'
+
+const getQueryLocalization = (router: NextRouter) => {
+  // to works in react router
+  if (router.query['localization']) {
+    return router.query['localization']
+  }
+  // to works when force refresh the page
+  const params = new URLSearchParams(window.location.search)
+  if (params.has('localization')) {
+    return params.get('localization')
+  }
+  return null
+}
 
 export default function Weather() {
   const router = useRouter()
-  const { localization } = router.query
-  const { data, loading, error, setIsMounted, callApiWeather, degreeType, setDegreeType } = useWeather(localization as string)
-  const onClickChangeDegreeType = () => {
-    setDegreeType(degreeType === CELCUIS ? KEVIN : CELCUIS)
+  const callbackUpdatedWeather = (data: WeatherData) => {
+    updateIsFavorite(data)
   }
+  const { weather, setWeather, loading, error, setIsMounted, callApiWeather} = useWeather(callbackUpdatedWeather)
+  const { toggleFavorite, setStorage, updateIsFavorite } = useFavorite(setWeather)
+  const handleChangeDegreeType = (weather: WeatherData) => {
+    setWeather({ ...weather, degreeType: weather.degreeType === CELCUIS ? KEVIN : CELCUIS })
+  }
+
+  // once is mounted DOM, call api to get weather information
   useEffect(() => {
-    callApiWeather()
+    setStorage(localStorage)
+    const localization = getQueryLocalization(router)
+    callApiWeather(localization as string)
     return () => {
       setIsMounted(false)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  
   return (<div>
     <div> Dashboard </div>
     {loading && <div> Loading... </div>}
     {error && <div> Error: {error} </div>}
-    {!loading && data &&
+    {!loading && weather &&
       <div className='flex flex-col gap-4 justify-center items-center'>
         <CardWeather
-          localization={data.localization}
-          temperature={data.temperature[degreeType]}
-          tempMin={data.tempMin[degreeType]}
-          tempMax={data.tempMax[degreeType]}
-          typeWeather={data.weather}
-          description={data.description}
-          isDay={data.isDay}
+          localization={weather.localization}
+          temperature={weather.temperature[weather.degreeType]}
+          tempMin={weather.tempMin[weather.degreeType]}
+          tempMax={weather.tempMax[weather.degreeType]}
+          typeWeather={weather.weather}
+          description={weather.description}
+          isDay={weather.isDay}
+          onClickToggleFavorite={() => {toggleFavorite(weather)}}
+          isFavorite={weather.isFavorite}
         />  
-        <button className='text-sm' onClick={() => { onClickChangeDegreeType() }}>Change to {degreeType === CELCUIS ? 'Kelvin' : 'Celsius'}</button>
+        <button
+          className='text-sm'
+          onClick={() => {handleChangeDegreeType(weather)}}>Change to {weather.degreeType === CELCUIS ? 'Kelvin' : 'Celsius'}</button>
       </div>
     }
   </div>)

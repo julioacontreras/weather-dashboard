@@ -1,9 +1,10 @@
+
 import IconClear from './icon-clear'
 import IconCloud from './icon-cloud'
 import IconRain from './icon-rain'
 import IconSnow from './icon-snow'
 import IconFavorite from './icon-favorite'
-import { TypeWeather } from '@/types/weather';
+import { TypeWeather } from '@/types/weather'
 
 type CardWeatherProps = {
   localization: string
@@ -13,6 +14,8 @@ type CardWeatherProps = {
   typeWeather: TypeWeather
   description: string
   isDay: boolean
+  onClickToggleFavorite: () => void,
+  isFavorite: boolean
 };
 
 export default function CardWeather(props: CardWeatherProps) {
@@ -27,7 +30,9 @@ export default function CardWeather(props: CardWeatherProps) {
   return (
     <div className={ bgColor[props.typeWeather] + " flex flex-col items-between justify-center" }>
       <div className="flex gap-4 justify-end items-center">
-        <IconFavorite />
+        <button onClick={props.onClickToggleFavorite}  >
+          <IconFavorite isFavorite={props.isFavorite} />
+        </button>
       </div>
       <div className="flex flex-col gap-4 items-center justify-between">
         <h1 className="text-xl font-bold">

@@ -1,25 +1,29 @@
 import { useState } from 'react'
-import { WeatherData, CELCUIS } from '../types/weather'
+import { WeatherData } from '../types/weather'
 
 type ErrorMessage = {
   message: string
 }
 
-export function useWeather(localization: string) {
-  const url = `${process.env.NEXT_PUBLIC_WEATHER_URL}/api/weather?localization=${localization}`
-  const [data, setData] = useState<WeatherData | null>(null)
-  const [degreeType, setDegreeType] = useState(CELCUIS)
+export function useWeather(callback: (data: WeatherData) => void) {
+  const [weather, setWeather] = useState<WeatherData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isMounted, setIsMounted] = useState<boolean>(true)
-  const callApiWeather = () => {
+
+  const callApiWeather = (localization: string) => {
+    const url = `${process.env.NEXT_PUBLIC_WEATHER_URL}/api/weather?localization=${localization}`
     setIsMounted(true)
     const fetchData = async () => {
       try {
         const response = await fetch(url)
         if (!response.ok) throw new Error('Network error')
-        const result = await response.json()
-        if (isMounted) setData(result)
+        const weather = await response.json()
+        if (isMounted) {
+          setWeather(weather)
+          callback(weather)
+        }
+
       } catch (err) {
         if (isMounted) setError((err as ErrorMessage).message)
       } finally {
@@ -28,5 +32,5 @@ export function useWeather(localization: string) {
     }
     fetchData()
   }
-  return { data, loading, error, isMounted, setIsMounted, callApiWeather, degreeType, setDegreeType }
+  return { weather, setWeather, loading, error, isMounted, setIsMounted, callApiWeather }
 }
