@@ -28,7 +28,9 @@ export const setJSONItem = (key: string, json: object): void => {
   if (!localStorage) { 
     return
   }
+  console.log('setJSONItem', key, json)
   const value = JSON.stringify(json)
+  console.log('value', value)
   localStorage.setItem(key, value)
 }
 

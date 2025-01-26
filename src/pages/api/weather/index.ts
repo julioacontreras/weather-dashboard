@@ -1,35 +1,8 @@
-import { CELCUIS, TypeWeather, WeatherData } from '@/types/weather'
+import { CELCUIS, WeatherData } from '@/types/weather'
 import { NextApiRequest, NextApiResponse } from 'next'
-
-const kelvinToCelsius = (kelvin: number): number => {
-  if (kelvin < 0) {
-    throw new Error('Kelvin cannot be negative.')
-  }
-  return kelvin - 273.15
-}
-
-const prepareTemperature = (temperature: number): number => {
-  if (temperature < 0) {
-    throw new Error('Temperature cannot be negative.')
-  }
-  return Math.round(temperature)
-}
-
-const createArrayTemperature = (temperatureKevin: number): string[] => {
-  return [prepareTemperature(kelvinToCelsius(temperatureKevin)) + ' °C', prepareTemperature(temperatureKevin) + ' °K']
-}
-
-const parseWeather = (weather: string): TypeWeather => {
-  if (weather === 'Clear') return TypeWeather.Clear
-  if (weather === 'Clouds') return TypeWeather.Clouds
-  if (weather === 'Rain') return TypeWeather.Rain
-  if (weather === 'Snow') return TypeWeather.Snow
-  return TypeWeather.Clear
-}
-
-const isDay = (sunrise: number, sunset: number): boolean => {
-  return sunrise > sunset
-}
+import { createArrayTemperature } from '@/services/temperature/create-array-temperature'
+import { parseWeather } from '@/services/weather/parse-weather'
+import { isDay } from '@/services/weather/is-day'
 
 export default async function GET(req: NextApiRequest, res: NextApiResponse) { 
   if (req.method !== 'GET') {
@@ -39,7 +12,7 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   const { localization } = req.query
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${localization}&appid=${process.env.OPEN_WEATHER_API_KEY}`
   const response = await fetch(url)
-  if (!response.ok) throw new Error('Network error')
+  if (!response.ok) throw new Error('Invalid city')
   const result = await response.json()
   const data: WeatherData = {
     localization: result.name,
@@ -49,7 +22,10 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
     weather: parseWeather(result.weather[0].main),
     description: result.weather[0].description,
     isDay: isDay(result.sys.sunrise, result.sys.sunset),
-    degreeType: CELCUIS
+    degreeType: CELCUIS,
+    isFavorite: false,
+    humidity: result.main.humidity,
+    windSpeed: result.wind.speed
   }
   return res.status(200).json(data)
 }

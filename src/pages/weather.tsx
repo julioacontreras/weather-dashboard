@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useRouter, NextRouter } from 'next/router'
 import { useWeather } from '../hooks/useWeather'
-import { CELCUIS, KEVIN, WeatherData } from '../types/weather'
+import { CELCUIS, FAHRENHEIT, WeatherData } from '../types/weather'
 import CardWeather from '../components/card-weather'
 import { useFavorite } from '../hooks/useFavortite'
 
@@ -26,7 +26,7 @@ export default function Weather() {
   const { weather, setWeather, loading, error, setIsMounted, callApiWeather} = useWeather(callbackUpdatedWeather)
   const { toggleFavorite, setStorage, updateIsFavorite } = useFavorite(setWeather)
   const handleChangeDegreeType = (weather: WeatherData) => {
-    setWeather({ ...weather, degreeType: weather.degreeType === CELCUIS ? KEVIN : CELCUIS })
+    setWeather({ ...weather, degreeType: weather.degreeType === CELCUIS ? FAHRENHEIT : CELCUIS })
   }
   // once is mounted DOM, call api to get weather information
   useEffect(() => {
@@ -45,19 +45,12 @@ export default function Weather() {
     {!loading && weather &&
       <div className='flex flex-col gap-4 justify-center items-center'>
         <CardWeather
-          localization={weather.localization}
-          temperature={weather.temperature[weather.degreeType]}
-          tempMin={weather.tempMin[weather.degreeType]}
-          tempMax={weather.tempMax[weather.degreeType]}
-          typeWeather={weather.weather}
-          description={weather.description}
+          weather={weather}
           isDay={weather.isDay}
           onClickToggleFavorite={() => {toggleFavorite(weather)}}
+          onClickChangeDegreeType={() => {handleChangeDegreeType(weather)}}
           isFavorite={weather.isFavorite}
         />  
-        <button
-          className='text-sm'
-          onClick={() => {handleChangeDegreeType(weather)}}>Change to {weather.degreeType === CELCUIS ? 'Kelvin' : 'Celsius'}</button>
       </div>
     }
   </div>)

@@ -1,5 +1,6 @@
 export const CELCUIS = 0
 export const KEVIN = 1
+export const FAHRENHEIT = 2
   
 export enum TypeWeather {
   Clear = 0,
@@ -18,4 +19,6 @@ export type WeatherData = {
   degreeType: number
   isDay: boolean
   isFavorite: boolean
+  humidity: number
+  windSpeed: number
 }
