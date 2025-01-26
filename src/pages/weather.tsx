@@ -28,7 +28,6 @@ export default function Weather() {
   const handleChangeDegreeType = (weather: WeatherData) => {
     setWeather({ ...weather, degreeType: weather.degreeType === CELCUIS ? KEVIN : CELCUIS })
   }
-
   // once is mounted DOM, call api to get weather information
   useEffect(() => {
     setStorage(localStorage)
@@ -39,7 +38,6 @@ export default function Weather() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
   return (<div>
     <div> Dashboard </div>
     {loading && <div> Loading... </div>}

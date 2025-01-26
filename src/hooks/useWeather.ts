@@ -23,7 +23,6 @@ export function useWeather(callback: (data: WeatherData) => void) {
           setWeather(weather)
           callback(weather)
         }
-
       } catch (err) {
         if (isMounted) setError((err as ErrorMessage).message)
       } finally {
