@@ -1,9 +1,8 @@
 type Props = {
   isDay: boolean
-};
+}
 
 export default function Icon(props: Props) {
-
   return (
     <>
       { props.isDay &&
