@@ -4,16 +4,27 @@ import { WeatherData } from '../types/weather'
 export const useFavorite = (setWeather: (weather: WeatherData) => void) => {
   const KEY_FAVORITES = 'favorites'
 
-  const updateIsFavorite = (weather: WeatherData) => {
+  const loadWeatherStoraged = (weather: WeatherData) => {
     const favorites = getJSONItem(KEY_FAVORITES) as WeatherData[] || []
-    const isFavorite = favorites.findIndex(item => item.localization === weather.localization) !== -1
-    setWeather({ ...weather, isFavorite })
+    const index = favorites.findIndex(item => item.localization === weather.localization)
+    const isFavorite = index !== -1
+    const degreeType = favorites[index].degreeType
+    setWeather({ ...weather, isFavorite, degreeType })
   }
 
-  const addFavorite = (weather: WeatherData) => { 
+  const storageWeather = (weather: WeatherData) => {
+    const noUpdate = true
+    removeFavorite(weather, noUpdate)
+    addFavorite(weather, noUpdate)
+  }
+
+  const addFavorite = (weather: WeatherData, noUpdate?: boolean) => { 
     const favorites = getJSONItem(KEY_FAVORITES) as WeatherData[] || []
     setJSONItem(KEY_FAVORITES, [...favorites, weather])
-    updateIsFavorite(weather)
+    if (noUpdate) {
+      return
+    }
+    loadWeatherStoraged(weather)
   }
 
   const toggleFavorite = (weather: WeatherData) => {
@@ -29,7 +40,7 @@ export const useFavorite = (setWeather: (weather: WeatherData) => void) => {
     }
   }
 
-  const removeFavorite = (weather: WeatherData) => {
+  const removeFavorite = (weather: WeatherData, noUpdate?: boolean) => {
     if (!hasStorage()) {
       return
     }
@@ -39,8 +50,11 @@ export const useFavorite = (setWeather: (weather: WeatherData) => void) => {
       return
     }
     favorites.splice(index, 1)
-    setJSONItem(KEY_FAVORITES,favorites )
-    updateIsFavorite(weather)
+    setJSONItem(KEY_FAVORITES, favorites)
+    if (noUpdate) {
+      return
+    }
+    loadWeatherStoraged(weather)
   }
 
   const getFavoritesWeathers = (): WeatherData[] => {
@@ -51,7 +65,8 @@ export const useFavorite = (setWeather: (weather: WeatherData) => void) => {
     toggleFavorite,
     removeFavorite,
     setStorage,
-    updateIsFavorite,
+    loadWeatherStoraged,
+    storageWeather,
     getFavoritesWeathers
   }
 }

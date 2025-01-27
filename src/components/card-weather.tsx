@@ -10,8 +10,7 @@ type CardWeatherProps = {
   weather: WeatherData
   isDay: boolean
   onClickToggleFavorite: () => void
-  onClickChangeDegreeType: () => void
-  isFavorite: boolean
+  onClickToggleDegreeType: () => void
 }
 
 export default function CardWeather(props: CardWeatherProps) {
@@ -22,7 +21,7 @@ export default function CardWeather(props: CardWeatherProps) {
     <div className={ `p-3 flex flex-col items-between justify-center ${bgColor}` }>
       <div className="flex gap-4 justify-end items-center pb-2">
         <button onClick={props.onClickToggleFavorite}  >
-          <IconFavorite isFavorite={props.isFavorite} />
+          <IconFavorite isFavorite={props.weather.isFavorite} />
         </button>
       </div>
       <div className="flex flex-col gap-4 items-center justify-between">
@@ -33,13 +32,13 @@ export default function CardWeather(props: CardWeatherProps) {
             </h1>
             <div className='flex'>
               <h1 className="text-4xl">
-                <button onClick={props.onClickChangeDegreeType} className='hover:text-yellow-100' >
+                <button onClick={props.onClickToggleDegreeType} className='hover:text-yellow-100' >
                   { props.weather.temperature[props.weather.degreeType] } 
                 </button>
               </h1>
               <h1 className="text-4xl text-slate-500 px-1">|</h1>
               <h1 className="text-4xl">
-                <button onClick={props.onClickChangeDegreeType} className='hover:text-yellow-100 text-slate-500' >
+                <button onClick={props.onClickToggleDegreeType} className='hover:text-yellow-100 text-slate-500' >
                   {props.weather.degreeType === CELCUIS ? '°F' : '°C'}
                 </button>
               </h1>

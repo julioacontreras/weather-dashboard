@@ -21,12 +21,13 @@ const getQueryLocalization = (router: NextRouter) => {
 export default function Weather() {
   const router = useRouter()
   const callbackUpdatedWeather = (data: WeatherData) => {
-    updateIsFavorite(data)
+    loadWeatherStoraged(data)
   }
   const { weather, setWeather, loading, error, setIsMounted, callApiWeather} = useWeather(callbackUpdatedWeather)
-  const { toggleFavorite, setStorage, updateIsFavorite } = useFavorite(setWeather)
-  const handleChangeDegreeType = (weather: WeatherData) => {
+  const { toggleFavorite, setStorage, loadWeatherStoraged, storageWeather } = useFavorite(setWeather)
+  const handleToggleDegreeType = (weather: WeatherData) => {
     setWeather({ ...weather, degreeType: weather.degreeType === CELCUIS ? FAHRENHEIT : CELCUIS })
+    storageWeather({ ...weather, degreeType: weather.degreeType === CELCUIS ? FAHRENHEIT : CELCUIS })
   }
   // once is mounted DOM, call api to get weather information
   useEffect(() => {
@@ -48,8 +49,7 @@ export default function Weather() {
           weather={weather}
           isDay={weather.isDay}
           onClickToggleFavorite={() => {toggleFavorite(weather)}}
-          onClickChangeDegreeType={() => {handleChangeDegreeType(weather)}}
-          isFavorite={weather.isFavorite}
+          onClickToggleDegreeType={() => {handleToggleDegreeType(weather)}}
         />  
       </div>
     }
