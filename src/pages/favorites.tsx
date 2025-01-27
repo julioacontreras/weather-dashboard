@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react'
 import { useFavorite } from '../hooks/useFavortite'
-import { WeatherData } from '@/types/weather'
+import { CELCUIS, FAHRENHEIT, WeatherData } from '@/types/weather'
 import CardWeatherFavortite from '@/components/card-weather-favorite'
+import VideoBackground from '@/components/video-background'
 
 export default function Favorite() {
   const setWeather = () => {
     setWeathers(getFavoritesWeathers())
   }
-  const {removeFavorite, setStorage, getFavoritesWeathers} = useFavorite(setWeather)
+  const {removeFavorite, setStorage, storageWeather, getFavoritesWeathers} = useFavorite(setWeather)
   const [weathers, setWeathers] = useState<WeatherData[]>([])
 
+  const handleToggleDegreeType = (weather: WeatherData) => {
+    const index = weathers.findIndex(item => item.localization === weather.localization)
+    weathers[index].degreeType = weather.degreeType === CELCUIS ? FAHRENHEIT : CELCUIS
+    setWeathers([...weathers])  
+    storageWeather({ ...weather })
+  }
+  
   // once is mounted DOM, call api to get weather information
   useEffect(() => {
     setStorage(localStorage)
@@ -19,20 +27,23 @@ export default function Favorite() {
   
   return ( 
     <>
-      <div className="text-xl lg:text-3xl">
-          Favorites
+      <VideoBackground />
+      <div className='px-6 flex gap-4 flex-col pt-6 container mx-auto'>
+        <div className="text-lg text-shadow-sm">
+          Managment favorite cities
+        </div>
+        {
+          weathers && 
+          weathers.map((weather, index) => (
+            <CardWeatherFavortite
+              key={index}
+              weather={weather}
+              onClickRemoveFavorite={() => {removeFavorite(weather)}}
+              onClickToggleDegreeType={() => {handleToggleDegreeType(weather)}}
+            ></CardWeatherFavortite>
+          ))
+        }
       </div>
-      {
-        weathers && 
-        weathers.map((weather, index) => (
-          <CardWeatherFavortite
-            key={index}
-            localization={weather.localization}
-            isFavorite={weather.isFavorite}
-            onClickRemoveFavorite={() => {removeFavorite(weather)}}
-          ></CardWeatherFavortite>
-        ))
-      }
     </>
   )
 }

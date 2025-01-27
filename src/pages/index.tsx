@@ -1,5 +1,6 @@
-import { useRef, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
+import VideoBackground from '@/components/video-background'
 
 export default function Home() {
   const router = useRouter()
@@ -10,24 +11,10 @@ export default function Home() {
   const handleUpdateCity = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value)
   } 
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.addEventListener('loadedmetadata', () => {
-        if (videoRef.current) {
-          videoRef.current.currentTime = 82; // 1 minute = 60 seconds + 22 seconds
-        }
-      })
-    }
-  }, [])
 
   return (
     <>
-      <video ref={videoRef} className="fixed top-0 left-0 w-full h-full object-cover z-[-1]" autoPlay loop muted>
-        <source src="background.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <VideoBackground />
 
       <div className="flex flex-col gap-4 justify-center items-center h-[80vh]">
         <div className="text-lg lg:text-3xl text-shadow-sm">
