@@ -41,7 +41,11 @@ export default function Weather() {
   }, [])
   return (<div className='flex flex-col justify-center items-center h-[80vh]'>
     {loading && <div> Loading... </div>}
-    {error && <div> Error: {error} </div>}
+    {error &&
+    <div>
+        <p>{error}</p>
+    </div>
+    }
     {!loading && weather &&
       <div className='flex flex-col w-full gap-4 justify-center items-center'>
         <CardWeather

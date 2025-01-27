@@ -17,7 +17,7 @@ export function useWeather(callback: (data: WeatherData) => void) {
     const fetchData = async () => {
       try {
         const response = await fetch(url)
-        if (!response.ok) throw new Error('Network error')
+        if (!response.ok) throw new Error('Not found your city')
         const weather = await response.json()
         if (isMounted) {
           setWeather(weather)
