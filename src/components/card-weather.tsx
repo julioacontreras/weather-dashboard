@@ -25,7 +25,7 @@ export default function CardWeather(props: CardWeatherProps) {
             <div>
               <div className='flex gap-2 items-center'>
                 <div>
-                  <h1 className="text-xl font-bold">
+                  <h1 id="title" className="text-xl font-bold">
                     { props.weather.localization }
                   </h1>
                 </div>

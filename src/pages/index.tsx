@@ -21,7 +21,7 @@ export default function Home() {
           Search weather by city
         </div>
         <div className="flex ">
-          <input type="text" placeholder='New York' className=" rounded-l-lg p-3 " onChange={ handleUpdateCity }></input>
+          <input id="search-city" type="text" placeholder='New York' className=" rounded-l-lg p-3 " onChange={ handleUpdateCity }></input>
           <button className="bg-slate-700 px-3 py-1 rounded-r-lg" onClick={() => { handleSearchWeatherByCity() } }>Search</button>
         </div>
       </div>
