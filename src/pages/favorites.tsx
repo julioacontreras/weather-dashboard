@@ -28,7 +28,7 @@ export default function Favorite() {
   return ( 
     <>
       <VideoBackground />
-      <div className='px-6 flex gap-4 flex-col pt-6 container mx-auto'>
+      <div className='px-6 flex gap-4 flex-col pt-6 container mx-auto max-w-[600px]'>
         <div className="text-lg text-shadow-sm">
           Managment favorite cities
         </div>
