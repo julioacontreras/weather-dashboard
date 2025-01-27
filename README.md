@@ -16,10 +16,10 @@ npm run build
 npm start
 
 # Run unit tests
-npm run test
+npm run test:unit
 
 # Run end to end tests
-npm run e2e
+npm run test:e2e
 
 ```
 
