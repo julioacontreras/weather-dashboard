@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import VideoBackground from '@/components/video-background'
 
 export default function Home() {
+  const inputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const [city, setCity] = useState('')
   const handleSearchWeatherByCity = () => {
@@ -16,6 +17,11 @@ export default function Home() {
       handleSearchWeatherByCity()
     }
   }
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [])
   
   return (
     <>
@@ -26,7 +32,7 @@ export default function Home() {
           Search weather by city
         </div>
         <div className="flex ">
-          <input onKeyDown={handleKeyDown} id="search-city" type="text" placeholder='New York' className="text-black rounded-l-lg p-3 " onChange={ handleUpdateCity }></input>
+          <input ref={inputRef} onKeyDown={handleKeyDown} id="search-city" type="text" placeholder='New York' className="text-black rounded-l-lg p-3 focus:ring-0 outline-none" onChange={ handleUpdateCity }></input>
           <button className="bg-slate-700 px-3 py-1 rounded-r-lg" onClick={() => { handleSearchWeatherByCity() } }>Search</button>
         </div>
       </div>
