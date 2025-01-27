@@ -10,7 +10,7 @@ type Props = {
 
 export default function CardWeatherFavortite(props: Props) {
   return (
-    <div className='flex bg-slate-800 rounded-lg p-3 gap-4 justify-between'>
+    <div className='flex bg-slate-800 rounded-lg p-3 gap-4 justify-between min-w-[290px]'>
       <div className="flex">
         <Link href={`/weather?localization=${props.weather.localization}`} className="text-xl lg:text-3xl hover:text-slate-400">
           { props.weather.localization }

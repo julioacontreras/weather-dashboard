@@ -18,7 +18,7 @@ export default function CardWeather(props: CardWeatherProps) {
   const bgColor = props.isDay ? 'bg-gradient-to-t from-[#0a0a0a] via-[#eab2081b] to-[#0a0a0a]' : 'bg-gradient-to-t from-[#0a0a0a] via-[#0835ea1b] to-[#0a0a0a]'
 
   return (
-    <div className={`p-3 w-full flex flex-col items-between justify-center ${bgColor}`}>
+    <div className={`p-3 w-full flex flex-col items-between justify-center ${bgColor} min-w-[290px]`}>
       <div className='container mx-auto'>
         <div className="flex flex-col gap-4 items-center justify-between">
           <div className="flex gap-4">
