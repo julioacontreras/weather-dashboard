@@ -33,9 +33,9 @@ export default function Home() {
         <div className="text-lg lg:text-3xl text-shadow-sm">
           Search weather by city
         </div>
-        <div className="flex gap-4">
-          <input type="text" placeholder='New York' className="dark:text-black rounded-lg p-3 " onChange={ handleUpdateCity }></input>
-          <button className="dark:bg-slate-50 dark:text-black px-3 py-1 rounded-lg" onClick={() => { handleSearchWeatherByCity() } }>Search</button>
+        <div className="flex ">
+          <input type="text" placeholder='New York' className=" rounded-l-lg p-3 " onChange={ handleUpdateCity }></input>
+          <button className="bg-slate-700 px-3 py-1 rounded-r-lg" onClick={() => { handleSearchWeatherByCity() } }>Search</button>
         </div>
       </div>
     </>
