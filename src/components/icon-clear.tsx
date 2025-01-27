@@ -4,9 +4,9 @@ type Props = {
 
 export default function Icon(props: Props) {
   return (
-    <>
+    <div data-testid="iconClear">
       { props.isDay &&
-        <svg width="123" height="123" viewBox="0 0 123 123" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg data-testid="iconClearDay" width="123" height="123" viewBox="0 0 123 123" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M123 61.5C123 95.4655 95.4655 123 61.5 123C27.5345 123 0 95.4655 0 61.5C0 27.5345 27.5345 0 61.5 0C95.4655 0 123 27.5345 123 61.5Z" fill="url(#paint0_radial_402_8)"/>
         <defs>
         <radialGradient id="paint0_radial_402_8" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(61.5 61.5) rotate(90) scale(85.6014)">
@@ -17,7 +17,7 @@ export default function Icon(props: Props) {
         </svg>
       } 
       { !props.isDay &&
-        <svg width="114" height="118" viewBox="0 0 114 118" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
+        <svg data-testid="iconClearNight" width="114" height="118" viewBox="0 0 114 118" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
         <path fillRule="evenodd" clipRule="evenodd" d="M113.463 87.7588C106.449 90.5717 98.7918 92.1194 90.7727 92.1194C57.09 92.1194 29.7848 64.8142 29.7848 31.1315C29.7848 19.7729 32.89 9.13949 38.2977 0.0339355C15.8515 9.03625 0 30.9976 0 56.6613C0 90.344 27.3052 117.649 60.9879 117.649C83.312 117.649 102.835 105.655 113.463 87.7588Z" fill="#BAC7CB"/>
         <g filter="url(#filter0_b_301_40)">
         <path fillRule="evenodd" clipRule="evenodd" d="M113.463 87.7588C106.449 90.5717 98.7918 92.1194 90.7727 92.1194C57.09 92.1194 29.7848 64.8142 29.7848 31.1315C29.7848 19.7729 32.89 9.13949 38.2977 0.0339355C15.8515 9.03625 0 30.9976 0 56.6613C0 90.344 27.3052 117.649 60.9879 117.649C83.312 117.649 102.835 105.655 113.463 87.7588Z" fill="url(#paint0_linear_301_40)"/>
@@ -55,7 +55,7 @@ export default function Icon(props: Props) {
         </svg>
 
       }
-    </>
+    </div>
   );
 }
 
