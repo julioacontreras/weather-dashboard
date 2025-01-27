@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import IconClear from '../../../src/components/icon-clear' // Adjust the path as necessary
+import IconClear from '../../../src/components/icon-clear'
 
 describe('IconClear Component', () => {
   test("render IconClear when is day", () => {

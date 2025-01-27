@@ -16,6 +16,7 @@ const config: Config = {
   transform: {
     "^.+\\.tsx?$": "ts-jest", // Use ts-jest for TypeScript files
   },
+  testMatch: ["**/*.test.[jt]s?(x)"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"], // Jest setup file
 }
  
