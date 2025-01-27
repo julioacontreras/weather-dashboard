@@ -34,6 +34,14 @@ export default function Favorite() {
         </div>
         {
           weathers && 
+          weathers.length === 0 && 
+          <div className="text-shadow-sm text-lg">
+              You don't have any favorite cities
+          </div>
+        }
+            
+        {
+          weathers && 
           weathers.map((weather, index) => (
             <CardWeatherFavortite
               key={index}
