@@ -36,7 +36,7 @@ export default function Favorite() {
           weathers && 
           weathers.length === 0 && 
           <div className="text-shadow-sm text-lg">
-              You don't have any favorite cities
+              You don&apos;t have any favorite cities
           </div>
         }
             
