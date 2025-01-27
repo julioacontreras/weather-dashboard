@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 export default function Home() {
@@ -9,16 +9,35 @@ export default function Home() {
   }
   const handleUpdateCity = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value)
-  }
+  } 
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.addEventListener('loadedmetadata', () => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = 82; // 1 minute = 60 seconds + 22 seconds
+        }
+      })
+    }
+  }, [])
+
   return (
-    <div className="flex flex-col gap-4 justify-center items-center">
-      <div className="text-lg">
-        Search weather by city
+    <>
+      <video ref={videoRef} className="fixed top-0 left-0 w-full h-full object-cover z-[-1]" autoPlay loop muted>
+        <source src="background.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <div className="flex flex-col gap-4 justify-center items-center h-[80vh]">
+        <div className="text-lg lg:text-3xl text-shadow-sm">
+          Search weather by city
+        </div>
+        <div className="flex gap-4">
+          <input type="text" placeholder='New York' className="dark:text-black rounded-lg p-3 " onChange={ handleUpdateCity }></input>
+          <button className="dark:bg-slate-50 dark:text-black px-3 py-1 rounded-lg" onClick={() => { handleSearchWeatherByCity() } }>Search</button>
+        </div>
       </div>
-      <div className="flex gap-4">
-        <input type="text" className="dark:text-black rounded-sm p-1" onChange={ handleUpdateCity }></input>
-        <button className="dark:bg-slate-50 dark:text-black px-2 py-1 rounded-sm" onClick={() => { handleSearchWeatherByCity() } }>Search</button>
-      </div>
-    </div>
+    </>
   )
 }

@@ -23,5 +23,16 @@ npm run e2e
 
 ```
 
+## Create a file `.env.local` with the following content:
+
+```sh
+# OpenWeather API Key
+OPEN_WEATHER_API_KEY=my-secrect-token
+
+# Local weather API URL
+NEXT_PUBLIC_WEATHER_URL=http://localhost:3000
+```
+
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 

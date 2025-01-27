@@ -39,12 +39,11 @@ export default function Weather() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  return (<div>
-    <div> Dashboard </div>
+  return (<div className='flex flex-col justify-center items-center h-[80vh]'>
     {loading && <div> Loading... </div>}
     {error && <div> Error: {error} </div>}
     {!loading && weather &&
-      <div className='flex flex-col gap-4 justify-center items-center'>
+      <div className='flex flex-col w-full gap-4 justify-center items-center'>
         <CardWeather
           weather={weather}
           isDay={weather.isDay}
