@@ -7,9 +7,12 @@ export const useFavorite = (setWeather: (weather: WeatherData) => void) => {
   const loadWeatherStoraged = (weather: WeatherData) => {
     const favorites = getJSONItem(KEY_FAVORITES) as WeatherData[] || []
     const index = favorites.findIndex(item => item.localization === weather.localization)
-    const isFavorite = index !== -1
+    if (index === -1) {
+      setWeather({ ...weather, isFavorite: false })
+      return
+    }
     const degreeType = favorites[index].degreeType
-    setWeather({ ...weather, isFavorite, degreeType })
+    setWeather({ ...weather, isFavorite: true, degreeType })
   }
 
   const storageWeather = (weather: WeatherData) => {
