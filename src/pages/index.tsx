@@ -11,7 +11,12 @@ export default function Home() {
   const handleUpdateCity = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCity(event.target.value)
   } 
-
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearchWeatherByCity()
+    }
+  }
+  
   return (
     <>
       <VideoBackground />
@@ -21,7 +26,7 @@ export default function Home() {
           Search weather by city
         </div>
         <div className="flex ">
-          <input id="search-city" type="text" placeholder='New York' className="text-black rounded-l-lg p-3 " onChange={ handleUpdateCity }></input>
+          <input onKeyDown={handleKeyDown} id="search-city" type="text" placeholder='New York' className="text-black rounded-l-lg p-3 " onChange={ handleUpdateCity }></input>
           <button className="bg-slate-700 px-3 py-1 rounded-r-lg" onClick={() => { handleSearchWeatherByCity() } }>Search</button>
         </div>
       </div>
